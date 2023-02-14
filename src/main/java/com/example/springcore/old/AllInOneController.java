@@ -1,5 +1,8 @@
-package com.example.springcore;
+package com.example.springcore.old;
 
+import com.example.springcore.Product;
+import com.example.springcore.ProductMypriceRequestDto;
+import com.example.springcore.ProductRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.sql.*;
