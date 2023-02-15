@@ -1,22 +1,22 @@
 package com.example.springcore.product;
 
-import com.example.springcore.Product;
-import com.example.springcore.ProductMypriceRequestDto;
-import com.example.springcore.ProductRequestDto;
-import lombok.RequiredArgsConstructor;
+import com.example.springcore.product.dto.ProductMypriceRequestDto;
+import com.example.springcore.product.dto.ProductRequestDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
 
+    @Autowired
     public ProductController(ProductService productService) {
+
         this.productService = productService;
     }
 

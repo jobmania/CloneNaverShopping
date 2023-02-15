@@ -1,4 +1,4 @@
-package com.example.springcore;
+package com.example.springcore.product.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

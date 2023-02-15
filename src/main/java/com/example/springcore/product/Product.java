@@ -1,5 +1,6 @@
-package com.example.springcore;
+package com.example.springcore.product;
 
+import com.example.springcore.product.dto.ProductRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

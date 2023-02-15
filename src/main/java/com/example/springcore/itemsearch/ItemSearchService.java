@@ -1,5 +1,7 @@
-package com.example.springcore;
+package com.example.springcore.itemsearch;
 
+import com.example.springcore.product.dto.ItemDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -8,27 +10,17 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.List;
 
-@Controller
-public class ItemSearchController {
+@Service
+public class ItemSearchService {
 
-    // Controller 가 자동으로 해주는 일
-// 1. API Request 의 파라미터 값에서 검색어 추출 -> query 변수
-// 5. API Response 보내기
-// 5.1) response 의 header 설정
-// 5.2) response 의 body 설정
-    @GetMapping("/api/search")
-    @ResponseBody
-    public List<ItemDto> getItems(@RequestParam String query) throws IOException {
-// 2. 네이버 쇼핑 API 호출에 필요한 Header, Body 정리
+    public List<ItemDto> getItems(String query) throws IOException {
+        // 2. 네이버 쇼핑 API 호출에 필요한 Header, Body 정리
         RestTemplate rest = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Naver-Client-Id", "zdqMoIkFaK8uKvC2oNY2");
