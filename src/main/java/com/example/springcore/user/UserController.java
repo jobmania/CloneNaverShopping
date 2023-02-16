@@ -1,11 +1,7 @@
 package com.example.springcore.user;
 
-import com.example.springcore.user.dto.SignupRequestDto;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 
-import com.sparta.springcore.dto.SignupRequestDto;
-import com.sparta.springcore.service.UserService;
+import com.example.springcore.user.dto.SignupRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
