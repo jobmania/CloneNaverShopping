@@ -3,7 +3,9 @@ package com.example.springcore.product;
 import com.example.springcore.product.dto.ProductMypriceRequestDto;
 import com.example.springcore.product.dto.ProductRequestDto;
 import com.example.springcore.security.UserDetailsImpl;
+import com.example.springcore.user.UserRoleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,6 +49,14 @@ public class ProductController {
 // 로그인 되어 있는 회원 테이블의 ID
         Long userId = userDetails.getUser().getId();
 
-        return productService.getProducts(userId);
+        return productService. getProducts(userId);
     }
+
+    // 관리자 상품 조회
+    @GetMapping("/api/admin/products")
+    @Secured(UserRoleEnum.Authority.ADMIN)
+    public List<Product> getAllProducts() {
+        return productService. getAllProducts();
+    }
+
 }
