@@ -3,7 +3,6 @@ package com.example.springcore.user;
 
 import com.example.springcore.security.UserDetailsImpl;
 import com.example.springcore.user.dto.KakaoUserInfoDto;
-import com.example.springcore.user.dto.SignupRequestDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,7 +21,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -31,15 +29,16 @@ public class KakaoUserService {
     private final UserRepository userRepository;
 //    설정 하면 안되는 이유 :
     //private final을 선언한 변수를 사용하면 재할당하지 못하며, 해당 필드, 메서드별로 호출할 때마다 새로이 값이 할당(인스턴스화)한다.
-    private HttpHeaders headers  = new HttpHeaders();
-    private RestTemplate rt = new RestTemplate();
+//    private HttpHeaders headers  = new HttpHeaders();
+//    private RestTemplate rt = new RestTemplate();
+
+
 
 
     @Autowired
     public KakaoUserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-
     }
 
 
