@@ -13,13 +13,8 @@ public class HomeController {
         model.addAttribute("username", userDetails.getUsername());
 
         if(userDetails.getUser().getRole() == UserRoleEnum.ADMIN){
-
             model.addAttribute("admin_role",true);
         }
-
-
-
-
         return "index";
     }
 }

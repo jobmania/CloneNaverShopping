@@ -2,18 +2,22 @@ package com.example.springcore.user;
 
 
 import com.example.springcore.user.dto.SignupRequestDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserController {
 
     private final UserService userService;
+    private final KakaoUserService kakaoUserService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, KakaoUserService kakaoUserService) {
+        this.kakaoUserService = kakaoUserService;
         this.userService = userService;
     }
 
@@ -35,4 +39,12 @@ public class UserController {
         userService.registerUser(requestDto);
         return "redirect:/user/login";
     }
+
+    @GetMapping("/user/kakao/callback")
+    public String kakaoLogin(@RequestParam String code) throws JsonProcessingException {
+       kakaoUserService.kakaoLogin(code);
+        return "redirect:/";
+    }
+
+
 }

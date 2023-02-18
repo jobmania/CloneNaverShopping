@@ -3,8 +3,10 @@ package com.example.springcore.user;
 
 import com.example.springcore.user.dto.SignupRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 
@@ -14,10 +16,12 @@ public class UserService {
     private final UserRepository userRepository;
     private static final String ADMIN_TOKEN = "AAABnv/xRVklrnYxKZ0aHgTBcXukeZygoC";
 
+
     @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+
     }
 
     public void registerUser(SignupRequestDto requestDto) {
@@ -44,4 +48,6 @@ public class UserService {
         User user = new User(username, password, email, role);
         userRepository.save(user);
     }
+
+
 }
