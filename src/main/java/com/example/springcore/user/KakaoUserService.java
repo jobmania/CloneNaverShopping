@@ -29,9 +29,11 @@ import java.util.UUID;
 public class KakaoUserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+//    설정 하면 안되는 이유 :
+    //private final을 선언한 변수를 사용하면 재할당하지 못하며, 해당 필드, 메서드별로 호출할 때마다 새로이 값이 할당(인스턴스화)한다.
+    private HttpHeaders headers  = new HttpHeaders();
+    private RestTemplate rt = new RestTemplate();
 
-    private final HttpHeaders headers = new HttpHeaders();
-    private final RestTemplate rt = new RestTemplate();
 
     @Autowired
     public KakaoUserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
@@ -57,7 +59,8 @@ public class KakaoUserService {
     }
 
     private String getAccessToken(String code) throws JsonProcessingException {
-
+        HttpHeaders headers = new HttpHeaders();
+        RestTemplate rt = new RestTemplate();
         // 1. "인가 코드"로 "액세스 토큰" 요청
 // HTTP Header 생성
 
@@ -90,6 +93,8 @@ public class KakaoUserService {
 
     private KakaoUserInfoDto getKakaoUserInfo(String accessToken) throws JsonProcessingException {
         // 2. 토큰으로 카카오 API 호출
+        HttpHeaders headers = new HttpHeaders();
+        RestTemplate rt = new RestTemplate();
 // HTTP Header 생성
 
         headers.add("Authorization", "Bearer " + accessToken);
