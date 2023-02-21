@@ -41,9 +41,11 @@ class ProductServiceTest {
 
         Product product = new Product(requestProductDto, userId);
 
+
+        //////////////////// 여기 주목!!!!!!!!!
         ProductService productService = new ProductService(productRepository);
         when(productRepository.findById(productId))
-                .thenReturn(Optional.of(product));  ///
+                .thenReturn(Optional.of(product));  /// << 추출값을 줘야함 ..~!
 
 // when
         Product result = productService.updateProduct(productId, requestMyPriceDto);
