@@ -5,6 +5,7 @@ import com.example.springcore.product.dto.ProductRequestDto;
 import com.example.springcore.security.UserDetailsImpl;
 import com.example.springcore.user.UserRoleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -45,18 +46,31 @@ public class ProductController {
 
     // 로그인한 회원이 등록한 관심 상품 조회
     @GetMapping("/api/products")
-    public List<Product> getProducts(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public Page<Product> getProducts(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestParam("sortBy") String sortBy,
+            @RequestParam("isAsc") boolean isAsc,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
 // 로그인 되어 있는 회원 테이블의 ID
         Long userId = userDetails.getUser().getId();
 
-        return productService. getProducts(userId);
+        page = page -1;
+        return productService. getProducts(userId,page,size,sortBy,isAsc);
     }
 
     // 관리자 상품 조회
     @GetMapping("/api/admin/products")
     @Secured(UserRoleEnum.Authority.ADMIN)
-    public List<Product> getAllProducts() {
-        return productService. getAllProducts();
+    public Page<Product> getAllProducts(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestParam("sortBy") String sortBy,
+            @RequestParam("isAsc") boolean isAsc,
+            @AuthenticationPrincipal UserDetailsImpl userDetails ) {
+
+        page = page -1;
+        return productService. getAllProducts(page,size,sortBy,isAsc);
     }
 
 }
