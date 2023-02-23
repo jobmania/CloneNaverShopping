@@ -1,6 +1,7 @@
 package com.example.springcore.product;
 
 
+import com.example.springcore.folder.Folder;
 import com.example.springcore.product.dto.ProductRequestDto;
 import com.example.springcore.validator.ProductValidator;
 import lombok.Getter;
@@ -8,9 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter // get 함수를 일괄적으로 만들어줍니다.
@@ -42,6 +42,13 @@ public class Product {
     @Column(nullable = false)
     private Long userId;
 
+    @OneToMany(mappedBy = "product")
+    private List<ProductFolder> myProductFolders = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Folder> folderList ;
+
+
     // 관심 상품 생성 시 이용합니다.
     public Product(ProductRequestDto requestDto, Long userId) {
 // 입력값 Validation
@@ -57,4 +64,12 @@ public class Product {
     }
 
 
+    public void addFolder(Folder folder, Product product) {
+        ProductFolder productFolder = new ProductFolder(folder,product);
+        this.myProductFolders.add(productFolder);
+    }
+
+    public void addFolder(Folder folder) {
+        this.folderList.add(folder);
+    }
 }

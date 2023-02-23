@@ -55,8 +55,8 @@ public class ProductController {
 // 로그인 되어 있는 회원 테이블의 ID
         Long userId = userDetails.getUser().getId();
 
-        page = page -1;
-        return productService. getProducts(userId,page,size,sortBy,isAsc);
+        page = page - 1;
+        return productService.getProducts(userId, page, size, sortBy, isAsc);
     }
 
     // 관리자 상품 조회
@@ -67,10 +67,17 @@ public class ProductController {
             @RequestParam("size") int size,
             @RequestParam("sortBy") String sortBy,
             @RequestParam("isAsc") boolean isAsc,
-            @AuthenticationPrincipal UserDetailsImpl userDetails ) {
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        page = page -1;
-        return productService. getAllProducts(page,size,sortBy,isAsc);
+        page = page - 1;
+        return productService.getAllProducts(page, size, sortBy, isAsc);
     }
 
+
+    @PostMapping("/api/products/{productId}/folder")
+    public Long addFolder(@PathVariable Long productId, @RequestParam Long folderId,
+                          @AuthenticationPrincipal UserDetailsImpl userDetails){
+        Product product = productService.addFolder(productId, folderId, userDetails.getUser());
+        return product.getId();
+    }
 }

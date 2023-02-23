@@ -1,10 +1,13 @@
 package com.example.springcore.user;
 
+import com.example.springcore.product.ProductFolder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter // get 함수를 일괄적으로 만들어줍니다.
@@ -31,7 +34,6 @@ public class User {
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
-
 
     @Column(unique = true)
     private Long kakaoId;
