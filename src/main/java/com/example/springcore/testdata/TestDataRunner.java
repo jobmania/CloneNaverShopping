@@ -43,10 +43,18 @@ public class TestDataRunner implements ApplicationRunner {  // 스프링이 기�
     public void run(ApplicationArguments args) throws Exception {  // 스프링이 기동이 될때 실행을 한다 !
 // 테스트 User 생성
         User testUser = new User("슈가", passwordEncoder.encode("123"), "sugar@sparta.com", UserRoleEnum.USER);
+        User testUser2 = new User("준식", passwordEncoder.encode("123"), "sugar1@sparta.com", UserRoleEnum.USER);
+        User testUser3 = new User("찬기", passwordEncoder.encode("123"), "sugar2@sparta.com", UserRoleEnum.ADMIN);
         testUser = userRepository.save(testUser);
+        testUser2 = userRepository.save(testUser2);
+        testUser3 = userRepository.save(testUser3);
 
 // 테스트 User 의 관심상품 등록
 // 검색어 당 관심상품 10개 등록
+        createTestData(testUser, "비키니");
+        createTestData(testUser, "모노키니");
+        createTestData(testUser, "여자수영복");
+        createTestData(testUser, "여자래쉬가드");
         createTestData(testUser, "신발");
         createTestData(testUser, "과자");
         createTestData(testUser, "키보드");
@@ -58,8 +66,6 @@ public class TestDataRunner implements ApplicationRunner {  // 스프링이 기�
         createTestData(testUser, "노트북");
         createTestData(testUser, "무선 이어폰");
         createTestData(testUser, "모니터");
-        createTestData(testUser, "비키니");
-        createTestData(testUser, "모노키니");
 
     }
 

@@ -1,5 +1,6 @@
-package com.example.springcore.itemsearch;
+package com.example.springcore.controller;
 
+import com.example.springcore.itemsearch.ItemSearchService;
 import com.example.springcore.product.dto.ItemDto;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;

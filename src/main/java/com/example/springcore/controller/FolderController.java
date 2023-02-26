@@ -1,5 +1,7 @@
-package com.example.springcore.folder;
+package com.example.springcore.controller;
 
+import com.example.springcore.folder.Folder;
+import com.example.springcore.folder.FolderService;
 import com.example.springcore.folder.dto.FolderRequestDto;
 import com.example.springcore.product.Product;
 import com.example.springcore.security.UserDetailsImpl;

@@ -1,5 +1,9 @@
-package com.example.springcore.product;
+package com.example.springcore.controller;
 
+import com.example.springcore.apiusetime.ApiUseTime;
+import com.example.springcore.apiusetime.ApiUseTimeRepository;
+import com.example.springcore.product.Product;
+import com.example.springcore.product.ProductService;
 import com.example.springcore.product.dto.ProductMypriceRequestDto;
 import com.example.springcore.product.dto.ProductRequestDto;
 import com.example.springcore.security.UserDetailsImpl;
@@ -11,14 +15,17 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController // JSON으로 데이터를 주고받음을 선언합니다.
 public class ProductController {
 
     private final ProductService productService;
 
+
     @Autowired
     public ProductController(ProductService productService) {
+
         this.productService = productService;
     }
 
@@ -26,13 +33,17 @@ public class ProductController {
     @PostMapping("/api/products")
     public Product createProduct(@RequestBody ProductRequestDto requestDto,
                                  @AuthenticationPrincipal UserDetailsImpl userDetails) {
-// 로그인 되어 있는 회원 테이블의 ID
+
+
+        // 로그인 되어 있는 회원 테이블의 ID
         Long userId = userDetails.getUser().getId();
 
         Product product = productService.createProduct(requestDto, userId);
 
-// 응답 보내기
+        // 응답 보내기
         return product;
+
+
     }
 
     // 설정 가격 변경
@@ -76,7 +87,7 @@ public class ProductController {
 
     @PostMapping("/api/products/{productId}/folder")
     public Long addFolder(@PathVariable Long productId, @RequestParam Long folderId,
-                          @AuthenticationPrincipal UserDetailsImpl userDetails){
+                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Product product = productService.addFolder(productId, folderId, userDetails.getUser());
         return product.getId();
     }

@@ -1,6 +1,7 @@
 package com.example.springcore.mvc;
 
-import com.example.springcore.product.ProductController;
+import com.example.springcore.controller.ProductController;
+import com.example.springcore.controller.UserController;
 import com.example.springcore.product.ProductService;
 import com.example.springcore.product.dto.ProductRequestDto;
 import com.example.springcore.security.UserDetailsImpl;

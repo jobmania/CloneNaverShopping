@@ -1,6 +1,8 @@
-package com.example.springcore.user;
+package com.example.springcore.controller;
 
 
+import com.example.springcore.user.KakaoUserService;
+import com.example.springcore.user.UserService;
 import com.example.springcore.user.dto.SignupRequestDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
