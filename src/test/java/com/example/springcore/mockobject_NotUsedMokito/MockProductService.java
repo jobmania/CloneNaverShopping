@@ -1,4 +1,4 @@
-package com.example.springcore.mockobject;
+package com.example.springcore.mockobject_NotUsedMokito;
 
 
 import com.example.springcore.product.Product;

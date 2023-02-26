@@ -1,14 +1,13 @@
 package com.example.springcore.folder;
 
 import com.example.springcore.folder.dto.FolderRequestDto;
+import com.example.springcore.product.Product;
 import com.example.springcore.security.UserDetailsImpl;
 import com.example.springcore.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,6 +32,21 @@ public class FolderController {
         return folderService.getFolders(userDetails.getUser());
     }
 
+
+
+    @GetMapping("api/folders/{folderId}/products")
+    public Page<Product> getProductsInFolder(
+            @PathVariable Long folderId,
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestParam("sortBy") String sortBy,
+            @RequestParam("isAsc") boolean isAsc,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ){
+        Page<Product> productsInFolder = folderService.getProductsInFolder(folderId, page-1, size, sortBy, isAsc, userDetails.getUser());
+        return productsInFolder;
+
+    }
 
 
 }

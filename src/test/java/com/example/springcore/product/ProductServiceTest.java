@@ -1,5 +1,6 @@
 package com.example.springcore.product;
 
+import com.example.springcore.folder.FolderRepository;
 import com.example.springcore.product.dto.ProductMypriceRequestDto;
 import com.example.springcore.product.dto.ProductRequestDto;
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +20,9 @@ import static org.mockito.Mockito.when;
 class ProductServiceTest {
     @Mock
     ProductRepository productRepository;
+
+    @Mock
+    FolderRepository folderRepository;
 
     @Test
     @DisplayName("관심 상품 희망가 - 최저가 이상으로 변경")
@@ -43,7 +47,7 @@ class ProductServiceTest {
 
 
         //////////////////// 여기 주목!!!!!!!!!
-        ProductService productService = new ProductService(productRepository);
+        ProductService productService = new ProductService(productRepository, folderRepository);
         when(productRepository.findById(productId))
                 .thenReturn(Optional.of(product));  /// << 추출값을 줘야함 ..~!
 
@@ -65,7 +69,7 @@ class ProductServiceTest {
                 myprice
         );
 
-        ProductService productService = new ProductService(productRepository);
+        ProductService productService = new ProductService(productRepository, folderRepository);
 
 // when
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
