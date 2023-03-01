@@ -3,67 +3,78 @@ package com.example.springcore.folder;
 import com.example.springcore.product.Product;
 import com.example.springcore.product.ProductRepository;
 import com.example.springcore.user.User;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class FolderService {
+
     private final FolderRepository folderRepository;
     private final ProductRepository productRepository;
 
-    public List<Folder> addFolder(List<String> folderNames, User user) {
-        List<Folder> folderList = new ArrayList<>();
-
-        List<Folder> existFolderList = folderRepository.findAllByUserAndNameIn(user, folderNames);
-
-        for (String folderName : folderNames) {
-//            Optional<Folder> byName = folderRepository.findByUserAndName(user, folderName); // DB를 많이 건든다 ㅠㅠㅠ;
-
-            // 중복 폴더는 생성 x
-            if(!isExistFolerName(folderName,existFolderList)){
-                Folder folder = new Folder(folderName, user);
-                folderList.add(folder);
-//                Folder saveFolder = folderRepository.save(folder);  // 하나씩 순회
-            }
-        }
-
-        folderList = folderRepository.saveAll(folderList);      //saveAll  <<< 이렇게 한꺼번에 저장
-        return folderList;
+    @Autowired
+    public FolderService(
+            FolderRepository folderRepository,
+            ProductRepository productRepository
+    ) {
+        this.folderRepository = folderRepository;
+        this.productRepository = productRepository;
     }
 
+    // 로그인한 회원에 폴더들 등록
+    @Transactional  // ㅋ
+    public List<Folder> addFolders(List<String> folderNames, User user) {
+        List<Folder> savedFolderList = new ArrayList<>();
+        for (String folderName : folderNames) {
+            Folder folder = createFolderOrThrow(folderName, user);
+            savedFolderList.add(folder);
+        }
+        folderRepository.saveAll(savedFolderList);
+
+        return savedFolderList;
+    }
+
+    @Transactional
+    public Folder createFolderOrThrow(String folderName, User user) {
+// 입력으로 들어온 폴더 이름이 이미 존재하는 경우, Exception 발생
+        boolean isExistFolder = folderRepository.existsByUserAndName(user, folderName);
+        if (isExistFolder) {
+            throw new IllegalArgumentException("중복된 폴더명을 제거해 주세요! 폴더명: " + folderName);
+        }
+
+// 폴더명 저장
+        Folder folder = new Folder(folderName, user);
+        return folderRepository.save(folder);
+    }
+
+    // 로그인한 회원이 등록된 모든 폴더 조회
     public List<Folder> getFolders(User user) {
         return folderRepository.findAllByUser(user);
     }
 
+    // 회원 ID 가 소유한 폴더에 저장되어 있는 상품들 조회
     public Page<Product> getProductsInFolder(
             Long folderId,
             int page,
             int size,
             String sortBy,
             boolean isAsc,
-            User user) {
-
-        Long userId = user.getId();
+            User user
+    ) {
         Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sort = Sort.by(direction, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
-        Page<Product> pageProduct = productRepository.findAllByUserIdAndFolderList_Id(userId, folderId, pageable);
-        return pageProduct;
+        Long userId = user.getId();
+        return productRepository.findAllByUserIdAndFolderList_Id(userId, folderId, pageable);
     }
 
-    private boolean isExistFolerName(String folderName, List<Folder> existFolderList) {
-        for (Folder folder : existFolderList) {
-            return folder.getName().equals(folderName);
-        }
-        return false;
-    }
+
 }

@@ -11,8 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-@Aspect  // 빈 클래스만 가능 .
-@Component
+@Aspect  // Aop
+@Component  // 빈 클래스만 가능 .
 public class UseTimeAop {
     private final ApiUseTimeRepository apiUseTimeRepository;
 
@@ -21,6 +21,9 @@ public class UseTimeAop {
     }
 
     @Around("execution(public * com.example.springcore.controller..*(..))" )  //적용대상 설정..(패키지명)
+                    //  퍼블릭, 모든 리턴타입(*), 클래스타입(패키지명 필요 com.example.) ,
+                    // .* 모든 클래스적용,    .. 하위 패키지 모든 클래스 ㅈ거용
+                    // (..) 파라미터 패턴  () 인수없음, (*) 인수1개 , (..) 인수 0 ~ N개
     // 포인트 컷 문법 : excution
     public Object execute(ProceedingJoinPoint joinPoint) throws Throwable {
 // 측정 시작 시간

@@ -1,6 +1,8 @@
 package com.example.springcore.testdata;
 
 
+import com.example.springcore.folder.Folder;
+import com.example.springcore.folder.FolderRepository;
 import com.example.springcore.itemsearch.ItemSearchService;
 import com.example.springcore.product.Product;
 import com.example.springcore.product.ProductRepository;
@@ -39,6 +41,9 @@ public class TestDataRunner implements ApplicationRunner {  // 스프링이 기�
     @Autowired
     ItemSearchService itemSearchService;
 
+    @Autowired
+    FolderRepository folderRepository;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {  // 스프링이 기동이 될때 실행을 한다 !
 // 테스트 User 생성
@@ -53,8 +58,6 @@ public class TestDataRunner implements ApplicationRunner {  // 스프링이 기�
 // 검색어 당 관심상품 10개 등록
         createTestData(testUser, "비키니");
         createTestData(testUser, "모노키니");
-        createTestData(testUser, "여자수영복");
-        createTestData(testUser, "여자래쉬가드");
         createTestData(testUser, "신발");
         createTestData(testUser, "과자");
         createTestData(testUser, "키보드");
@@ -94,7 +97,13 @@ public class TestDataRunner implements ApplicationRunner {  // 스프링이 기�
         }
 
         productRepository.saveAll(productList);
-    }
+
+        Folder folder = new Folder(searchWord, user);
+        folderRepository.save(folder);
+
+
+
+   }
 
     public int getRandomNumber(int min, int max) {
         return (int) ((Math.random() * (max - min)) + min);

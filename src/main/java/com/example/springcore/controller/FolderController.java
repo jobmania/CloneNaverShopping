@@ -25,7 +25,7 @@ public class FolderController {
                                    @AuthenticationPrincipal UserDetailsImpl userDetails){
         List<String> folderNames = folderRequestDto.getFolderNames();
         User user = userDetails.getUser();
-        return folderService.addFolder(folderNames,user);
+        return folderService.addFolders(folderNames,user);
     }
 
 
