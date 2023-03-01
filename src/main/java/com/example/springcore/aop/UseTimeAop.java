@@ -51,10 +51,12 @@ public class UseTimeAop {
                         .orElse(null);
                 if (apiUseTime == null) {
 // 로그인 회원의 기록이 없으면
-                    apiUseTime = new ApiUseTime(loginUser, runTime);
+                    long count = 1;
+                    apiUseTime = new ApiUseTime(loginUser, runTime, count);
                 } else {
 // 로그인 회원의 기록이 이미 있으면
                     apiUseTime.addUseTime(runTime);
+                    apiUseTime.addUseCount();
                 }
 
                 System.out.println("[API Use Time] Username: " + loginUser.getUsername() + ", Total Time: " + apiUseTime.getTotalTime() + " ms");

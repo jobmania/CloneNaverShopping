@@ -24,12 +24,21 @@ public class ApiUseTime {
     @Column(nullable = false)
     private Long totalTime;
 
-    public ApiUseTime(User user, long totalTime) {
+    @Column(nullable = false, columnDefinition = "bigint default 0") //새로운 컬럼이 만들어진다면
+    // DB 초기값을 0 으로 만든다!! //
+    private Long totalCount;
+
+    public ApiUseTime(User user, long totalTime, long totalCount) {
         this.user = user;
         this.totalTime = totalTime;
+        this.totalCount = totalCount;
     }
 
     public void addUseTime(long useTime) {
         this.totalTime += useTime;
+    }
+
+    public void addUseCount(){
+        this.totalCount++;
     }
 }
